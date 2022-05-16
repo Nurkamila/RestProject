@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from post.views import CategoryListView, PostViewSet
+from post.views import CategoryListView, PostViewSet, PostImageView
 
 router = DefaultRouter()
 router.register('posts', PostViewSet)
@@ -27,5 +27,7 @@ router.register('posts', PostViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/categories/', CategoryListView.as_view()),
+    path('api/v1/add-image/', PostImageView.as_view()),
+    path('api/v1/account/', include('account.urls')),
     path('api/v1/', include(router.urls)),
 ]

@@ -57,6 +57,11 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['action'] = self.action
+        return context
+
     @action(detail=False, methods=['get'])
     def search(self, request, pk=None):
         q = request.query_params.get('q')

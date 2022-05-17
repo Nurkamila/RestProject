@@ -49,7 +49,7 @@ from post.serializers import *
 
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -72,7 +72,7 @@ class PostViewSet(viewsets.ModelViewSet):
                                     context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class PostImageView(generics.ListAPIView):
+class PostImageViewSet(viewsets.ModelViewSet):
     queryset = PostImage.objects.all()
     serializer_class = PostImageSerializer
 

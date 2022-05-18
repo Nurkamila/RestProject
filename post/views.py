@@ -59,7 +59,7 @@ class MyPaginationView(PageNumberPagination):
             data[i]['text'] = text[:15] + ' ...'
         return super().get_paginated_response(data)
 
-class CategoryListView(generics.ListAPIView):
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
@@ -106,6 +106,11 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = PostSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['action'] = self.action
+        return context
+
     @action(detail=False, methods=['get'])
     def search(self, request, pk=None):
         q = request.query_params.get('q')
@@ -116,7 +121,7 @@ class PostViewSet(viewsets.ModelViewSet):
                                     context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class PostImageView(generics.ListAPIView):
+class PostImageViewSet(viewsets.ModelViewSet):
     queryset = PostImage.objects.all()
     serializer_class = PostImageSerializer
 
